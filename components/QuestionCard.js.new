@@ -1,0 +1,150 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+const QuestionCard = ({ question, options, onSelect }) => {
+  const [selected, setSelected] = useState(null);
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePress = (opt) => {
+    setSelected(opt);
+    
+    // Butona basma animasyonu
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      onSelect(opt);
+      setSelected(null);
+    });
+  };
+
+  // Seçili olmayan butonları soluklaştır
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: selected ? 0.6 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  }, [selected, fadeAnim]);
+
+  return (
+    <View style={styles.card}>
+      <View style={styles.questionContainer}>
+        <Text style={[styles.qText, { color: question.color }]}>
+          {`${question.n1} ${question.op} ${question.n2} = ?`}
+        </Text>
+        <View style={styles.iconContainer}>
+          <Ionicons name="help-circle" size={28} color={question.color} />
+        </View>
+      </View>
+
+      <View style={styles.row}>
+        {options.map((opt, i) => {
+          const isSelected = selected === opt;
+          return (
+            <Animated.View 
+              key={i} 
+              style={[
+                styles.optionContainer,
+                {
+                  transform: [{ 
+                    scale: isSelected ? scaleAnim : 1 
+                  }],
+                  opacity: selected && !isSelected ? fadeAnim : 1,
+                }
+              ]}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.option, 
+                  { 
+                    backgroundColor: question.palette[i],
+                    borderWidth: 2,
+                    borderColor: question.palette[i],
+                  }
+                ]}
+                onPress={() => handlePress(opt)}
+                activeOpacity={0.8}
+                disabled={selected !== null}
+              >
+                <Text style={styles.optText}>{opt}</Text>
+              </TouchableOpacity>
+            </Animated.View>
+          );
+        })}
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  card: {
+    marginTop: 24,
+    backgroundColor: '#fff',
+    borderRadius: 24,
+    padding: 24,
+    width: '100%',
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    alignItems: 'center',
+  },
+  questionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  iconContainer: {
+    marginLeft: 12,
+  },
+  qText: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.1)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  optionContainer: {
+    width: '48%',
+    marginBottom: 16,
+  },
+  option: {
+    paddingVertical: 18,
+    borderRadius: 16,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  optText: {
+    color: 'white',
+    fontSize: 24,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0,0,0,0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+});
+
+export default React.memo(QuestionCard);
