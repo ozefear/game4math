@@ -54,6 +54,7 @@ export default function InfoScreen({ navigation }) {
 
           <ScrollView 
             style={styles.scrollView}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollContent}
           >
             <View style={styles.titleContainer}>
@@ -163,12 +164,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    width: '100%',
   },
   scrollContent: {
     paddingTop: 20,
     paddingBottom: 40,
     alignItems: 'center',
-    justifyContent: 'center',
     flexGrow: 1,
   },
   header: {

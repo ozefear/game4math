@@ -34,16 +34,17 @@ const RootStack = () => {
           contentStyle: { backgroundColor: '#FDF6EC' },
         }}
       >
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: "Game 4 Math" }} />
         <Stack.Screen 
           name="Game" 
           component={GameScreen}
           options={{
             gestureEnabled: false, // Geri tuşunu devre dışı bırak
+            title: "Oyun",
           }}
         />
-        <Stack.Screen name="Info" component={InfoScreen} />
-        <Stack.Screen name="Learning" component={LearningScreen} />
+        <Stack.Screen name="Info" component={InfoScreen} options={{ title: "Bilgi" }} />
+        <Stack.Screen name="Learning" component={LearningScreen} options={{ title: "İşlemler" }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
