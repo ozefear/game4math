@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { View, Text, Alert, StyleSheet, SafeAreaView, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, Alert, StyleSheet, SafeAreaView, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import MathWheel, { spinWheel, resetWheel } from '../components/MathWheel';
@@ -221,81 +221,83 @@ export default function GameScreen({ navigation }) {
       style={styles.container}
     >
       <SafeAreaView style={styles.safeArea}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleGoHome} style={styles.homeButton}>
-            <Ionicons name="home" size={24} color="#fff" />
-          </TouchableOpacity>
-          
-        <View style={styles.scoreContainer}>
-            <Text style={styles.scoreText}>Skor: {score}</Text>
-          </View>
-          
-          <TouchableOpacity onPress={handleResetGame} style={styles.resetButton}>
-            <Ionicons name="refresh" size={24} color="#fff" />
-          </TouchableOpacity>
-        </View>
-        
-        {/* Content */}
-        <View style={styles.content}>
-          {/* Oyun Başlangıç Mesajı */}
-          {!gameStarted && (
-            <Animated.View 
-              style={[
-                styles.welcomeContainer,
-                { 
-                  opacity: fadeAnim,
-                  transform: [{ scale: scaleAnim }]
-                }
-              ]}
-            >
-              <Text style={styles.welcomeTitle}>🎯 Matematik Çarkı</Text>
-              <Text style={styles.welcomeText}>
-                Çarkı çevir ve çıkan işlem türünde soruları çöz!
-              </Text>
-            </Animated.View>
-          )}
-
-          {/* Çark */}
-        <View style={styles.wheelContainer}>
-            <MathWheel ref={wheelRef} onSpinComplete={handleSpinComplete} />
-        </View>
-
-          {/* Çark Döndür Butonu */}
-          {!currentQuestion && (
-            <TouchableOpacity
-              style={[styles.spinButton, isSpinning && styles.spinButtonDisabled]}
-              onPress={handleSpinPress}
-              disabled={isSpinning}
-            >
-              <Text style={styles.spinButtonText}>
-                {isSpinning ? '🎯 Çark Dönüyor...' : '🎲 Çarkı Çevir'}
-              </Text>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleGoHome} style={styles.homeButton}>
+              <Ionicons name="home" size={24} color="#fff" />
             </TouchableOpacity>
-          )}
+            
+          <View style={styles.scoreContainer}>
+              <Text style={styles.scoreText}>Skor: {score}</Text>
+            </View>
+            
+            <TouchableOpacity onPress={handleResetGame} style={styles.resetButton}>
+              <Ionicons name="refresh" size={24} color="#fff" />
+            </TouchableOpacity>
+          </View>
+          
+          {/* Content */}
+          <View style={styles.content}>
+            {/* Oyun Başlangıç Mesajı */}
+            {!gameStarted && (
+              <Animated.View 
+                style={[
+                  styles.welcomeContainer,
+                  { 
+                    opacity: fadeAnim,
+                    transform: [{ scale: scaleAnim }]
+                  }
+                ]}
+              >
+                <Text style={styles.welcomeTitle}>🎯 Matematik Çarkı</Text>
+                <Text style={styles.welcomeText}>
+                  Çarkı çevir ve çıkan işlem türünde soruları çöz!
+                </Text>
+              </Animated.View>
+            )}
 
-          {/* Soru Kartı */}
-          {currentQuestion && options.length > 0 && (
-            <QuestionCard
-              question={currentQuestion}
-              options={options}
-              onSelect={handleAnswerSelect}
-            />
-          )}
+            {/* Çark */}
+          <View style={styles.wheelContainer}>
+              <MathWheel ref={wheelRef} onSpinComplete={handleSpinComplete} />
           </View>
 
-        {/* Modal'lar */}
-        <SuccessModal
-          visible={showSuccessModal}
-          onClose={handleSuccessModalClose}
-        />
+            {/* Çark Döndür Butonu */}
+            {!currentQuestion && (
+              <TouchableOpacity
+                style={[styles.spinButton, isSpinning && styles.spinButtonDisabled]}
+                onPress={handleSpinPress}
+                disabled={isSpinning}
+              >
+                <Text style={styles.spinButtonText}>
+                  {isSpinning ? '🎯 Çark Dönüyor...' : '🎲 Çarkı Çevir'}
+                </Text>
+              </TouchableOpacity>
+            )}
 
-        <ErrorModal
-          visible={showErrorModal}
-          onClose={handleErrorModalClose}
-          correctAnswer={currentQuestion?.answer}
-        />
-    </SafeAreaView>
+            {/* Soru Kartı */}
+            {currentQuestion && options.length > 0 && (
+              <QuestionCard
+                question={currentQuestion}
+                options={options}
+                onSelect={handleAnswerSelect}
+              />
+            )}
+            </View>
+
+          {/* Modal'lar */}
+          <SuccessModal
+            visible={showSuccessModal}
+            onClose={handleSuccessModalClose}
+          />
+
+          <ErrorModal
+            visible={showErrorModal}
+            onClose={handleErrorModalClose}
+            correctAnswer={currentQuestion?.answer}
+          />
+        </ScrollView>
+      </SafeAreaView>
     </LinearGradient>
   );
 }
@@ -306,14 +308,20 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    paddingHorizontal: 30,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingTop: 10,
   },
   homeButton: {
     width: 44,
@@ -344,16 +352,20 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingTop: 20,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    minHeight: '80%', // Adjusted minHeight
   },
   welcomeContainer: {
     alignItems: 'center',
-    marginBottom: 30,
-    backgroundColor: 'rgba(255,255,255,0.1)',
+    justifyContent: 'center',
     padding: 20,
     borderRadius: 15,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    width: '90%', // Adjusted width
+    maxWidth: 400, // Added maxWidth
   },
   welcomeTitle: {
     fontSize: 28,

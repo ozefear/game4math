@@ -6,7 +6,8 @@ import {
   TouchableOpacity, 
   Animated, 
   Dimensions, 
-  SafeAreaView 
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -84,97 +85,99 @@ export default function HomeScreen() {
       style={styles.container}
     >
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.content}>
-          {/* Ana Karakter */}
-          <Animated.View
-            style={[
-              styles.characterContainer,
-              {
-                transform: [
-                  { translateY: characterTranslate },
-                  { scale: titleBounce }
-                ]
-              }
-            ]}
-          >
-            <Text style={styles.mainCharacter}>🤖</Text>
-            <View style={styles.speechBubble}>
-              <Text style={styles.speechText}>Hadi matematik öğrenelim!</Text>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.content}>
+            {/* Ana Karakter */}
+            <Animated.View
+              style={[
+                styles.characterContainer,
+                {
+                  transform: [
+                    { translateY: characterTranslate },
+                    { scale: titleBounce }
+                  ]
+                }
+              ]}
+            >
+              <Text style={styles.mainCharacter}>🤖</Text>
+              <View style={styles.speechBubble}>
+                <Text style={styles.speechText}>Hadi matematik öğrenelim!</Text>
+              </View>
+            </Animated.View>
+
+            {/* Başlık */}
+            <Animated.View
+              style={[
+                styles.titleContainer,
+                {
+                  transform: [{ scale: titleScale }]
+                }
+              ]}
+            >
+              <Text style={styles.title}>🎯 Matematik Çarkı</Text>
+              <Text style={styles.subtitle}>Eğlenceli Öğrenme Macerası</Text>
+            </Animated.View>
+
+            {/* Alt Karakterler */}
+            <View style={styles.bottomCharacters}>
+              <Text style={styles.sideCharacter}>🦄</Text>
+              <Text style={styles.sideCharacter}>🐻</Text>
+              <Text style={styles.sideCharacter}>🐨</Text>
             </View>
-          </Animated.View>
 
-          {/* Başlık */}
-          <Animated.View
-            style={[
-              styles.titleContainer,
-              {
-                transform: [{ scale: titleScale }]
-              }
-            ]}
-          >
-            <Text style={styles.title}>🎯 Matematik Çarkı</Text>
-            <Text style={styles.subtitle}>Eğlenceli Öğrenme Macerası</Text>
-          </Animated.View>
+            {/* Butonlar */}
+            <Animated.View
+              style={[
+                styles.buttonsContainer,
+                {
+                  transform: [{ scale: buttonScale }]
+                }
+              ]}
+            >
+              <TouchableOpacity
+                style={styles.gameButton}
+                onPress={handleGameStart}
+                activeOpacity={0.8}
+              >
+                <LinearGradient
+                  colors={['#FFD166', '#FF6B6B']}
+                  style={styles.buttonGradient}
+                >
+                  <Text style={styles.gameButtonText}>🎮 Oyuna Başla!</Text>
+                  <Text style={styles.buttonSubtext}>Çarkı çevir, matematik öğren!</Text>
+                </LinearGradient>
+              </TouchableOpacity>
 
-          {/* Alt Karakterler */}
-          <View style={styles.bottomCharacters}>
-            <Text style={styles.sideCharacter}>🦄</Text>
-            <Text style={styles.sideCharacter}>🐻</Text>
-            <Text style={styles.sideCharacter}>🐨</Text>
+              <TouchableOpacity
+                style={styles.infoButton}
+                onPress={handleInfoPress}
+                activeOpacity={0.8}
+              >
+                <LinearGradient
+                  colors={['#4ECDC4', '#45B7D1']}
+                  style={styles.buttonGradient}
+                >
+                  <Text style={styles.infoButtonText}>ℹ️ Nasıl Oynanır?</Text>
+                  <Text style={styles.buttonSubtext}>Oyun kurallarını öğren</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.learningButton}
+                onPress={handleLearningPress}
+                activeOpacity={0.8}
+              >
+                <LinearGradient
+                  colors={['#9C27B0', '#E91E63']}
+                  style={styles.buttonGradient}
+                >
+                  <Text style={styles.learningButtonText}>📚 İşlem Bilgini Gözden Geçir</Text>
+                  <Text style={styles.buttonSubtext}>Dört işlemi eğlenceli öğren!</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </Animated.View>
           </View>
-
-          {/* Butonlar */}
-          <Animated.View
-            style={[
-              styles.buttonsContainer,
-              {
-                transform: [{ scale: buttonScale }]
-              }
-            ]}
-          >
-            <TouchableOpacity
-              style={styles.gameButton}
-              onPress={handleGameStart}
-              activeOpacity={0.8}
-            >
-              <LinearGradient
-                colors={['#FFD166', '#FF6B6B']}
-                style={styles.buttonGradient}
-              >
-                <Text style={styles.gameButtonText}>🎮 Oyuna Başla!</Text>
-                <Text style={styles.buttonSubtext}>Çarkı çevir, matematik öğren!</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.infoButton}
-              onPress={handleInfoPress}
-              activeOpacity={0.8}
-            >
-              <LinearGradient
-                colors={['#4ECDC4', '#45B7D1']}
-                style={styles.buttonGradient}
-              >
-                <Text style={styles.infoButtonText}>ℹ️ Nasıl Oynanır?</Text>
-                <Text style={styles.buttonSubtext}>Oyun kurallarını öğren</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.learningButton}
-              onPress={handleLearningPress}
-              activeOpacity={0.8}
-            >
-              <LinearGradient
-                colors={['#9C27B0', '#E91E63']}
-                style={styles.buttonGradient}
-              >
-                <Text style={styles.learningButtonText}>📚 İşlem Bilgini Gözden Geçir</Text>
-                <Text style={styles.buttonSubtext}>Dört işlemi eğlenceli öğren!</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -194,13 +197,21 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
   content: {
     flex: 1,
     width: '100%',
-    height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    alignSelf: 'center',
+    alignContent: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
+    minHeight: height * 0.9,
   },
 
   characterContainer: {
@@ -255,8 +266,12 @@ const styles = StyleSheet.create({
   },
   bottomCharacters: {
     flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    alignContent: 'center',
     justifyContent: 'space-around',
-    width: '40%',
+    width: '60%',
+    maxWidth: 300,
     marginBottom: 40,
     textShadowColor: 'rgba(0,0,0,0.3)',
     textShadowOffset: { width: 2, height: 2 },
@@ -266,12 +281,12 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   buttonsContainer: {
-    width: '75%',
+    width: '100%',
     alignItems: 'center',
   },
   gameButton: {
-    width: '50%',
-    maxWidth: Math.min(Dimensions.get('window').width * 0.4, 580),
+    width: '80%',
+    maxWidth: 300,
     marginBottom: 20,
     borderRadius: 25,
     overflow: 'hidden',
@@ -282,8 +297,8 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   infoButton: {
-    width: '50%',
-    maxWidth: Math.min(Dimensions.get('window').width * 0.4, 580),
+    width: '80%',
+    maxWidth: 300,
     marginBottom: 20,
     borderRadius: 25,
     overflow: 'hidden',
@@ -294,8 +309,8 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   learningButton: {
-    width: '50%',
-    maxWidth: Math.min(Dimensions.get('window').width * 0.4, 580),
+    width: '80%',
+    maxWidth: 300,
     borderRadius: 25,
     overflow: 'hidden',
     elevation: 8,

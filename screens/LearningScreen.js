@@ -129,7 +129,7 @@ export default function LearningScreen({ navigation }) {
             <ScrollView 
               style={styles.scrollView}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={[styles.scrollContent, { alignItems: 'center' }]}
+              contentContainerStyle={styles.scrollContent}
             >
               {/* İşlem Kartları */}
               {operations.map((operation, index) => (
@@ -229,10 +229,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     width: '100%',
-    height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 20,
+    paddingTop: 20,
   },
   header: {
     flexDirection: 'row',
@@ -292,13 +292,17 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    width: '100%',
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: 40,
+    paddingTop: 20,
+    alignItems: 'center',
+    flexGrow: 1,
   },
   operationCard: {
-    width: '75%',
-    maxWidth: Math.min(Dimensions.get('window').width * 0.4, 580),
+    width: '90%',
+    maxWidth: 400,
     marginBottom: 20,
     borderRadius: 25,
     overflow: 'hidden',
@@ -307,7 +311,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    alignSelf: 'center',
   },
   cardGradient: {
     padding: 20,
