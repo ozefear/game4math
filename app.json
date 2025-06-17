@@ -15,12 +15,20 @@
     },
     "web": {
       "name": "Game 4 Math",
-      "favicon": "./assets/favicon.png",
+      "favicon": "./assets/g4me.png",
       "meta": {
-        "description": "A fun and interactive math learning game for all ages.",
+        "description": "Çocuklara 4 işlemi öğreten oyun!",
         "keywords": "math, game, education, learning, fun, quiz, numbers",
         "og:title": "Game 4 Math",
-        "og:image": "https://example.com/your-game-image.png"
+        "og:image": "./assets/metafoto.png",
+        "og:description": "Çocuklara 4 işlemi öğreten oyun!",
+        "og:url": "https://game4math.vercel.app",
+        "og:site_name": "Game 4 Math",
+        "twitter:card": "./assets/metafoto.png",
+        "twitter:title": "Game 4 Math",
+        "twitter:description": "Çocuklara 4 işlemi öğreten oyun!",
+        "twitter:image": "./assets/metafoto.png",
+        "twitter:url": "https://game4math.vercel.app"
       }
     }
   }
